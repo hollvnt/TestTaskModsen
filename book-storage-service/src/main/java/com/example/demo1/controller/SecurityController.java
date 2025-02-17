@@ -33,7 +33,7 @@ public class SecurityController {
         }
         User user = new User();
         user.setUsername(signupRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));  // Шифруем пароль здесь
+        user.setPassword(passwordEncoder.encode(signupRequest.getPassword()));
         userRepository.save(user);
         return ResponseEntity.ok("Success");
     }
