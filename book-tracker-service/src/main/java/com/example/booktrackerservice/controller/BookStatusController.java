@@ -1,11 +1,10 @@
-package com.example.booktrackerservice.controller;
+package com.example.booktrackerservice.Controller;
 
-import com.example.booktrackerservice.dto.BookStatusDTO;
-import com.example.booktrackerservice.service.BookStatusService;
+import com.example.booktrackerservice.Constants.ErrorMessage;
+import com.example.booktrackerservice.DTO.BookStatusDTO;
+import com.example.booktrackerservice.Service.BookStatusService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public class BookStatusController {
         try{
             return bookStatusService.addBookStatus(bookStatusDTO);
         } catch (Exception e){
-            throw new RuntimeException("Ошибка при добавлении статуса книги: " + e.getMessage());
+            throw new RuntimeException(ErrorMessage.ADD_BOOK_ERROR + e.getMessage());
         }
     }
 
@@ -30,7 +29,7 @@ public class BookStatusController {
         try{
             return bookStatusService.getAvailableBook();
         } catch (Exception e){
-            throw new RuntimeException("Ошибка при получении статуса книги: " + e.getMessage());
+            throw new RuntimeException(ErrorMessage.GET_BOOK_ERROR + e.getMessage());
         }
     }
 
@@ -40,7 +39,7 @@ public class BookStatusController {
             String newStatus = requestBody.get("bookStatus");
             return bookStatusService.updateBookStatus(bookId, newStatus);
         } catch (Exception e){
-            throw new RuntimeException("Ошибка при обновлении статуса книги с id: " + bookId + e.getMessage());
+            throw new RuntimeException(ErrorMessage.UPDATE_BOOK_ERROR + bookId + e.getMessage());
         }
     }
 
@@ -48,9 +47,9 @@ public class BookStatusController {
     public String deleteBookStatus(@PathVariable Long bookId){
         try {
             bookStatusService.deleteBookStatus(bookId);
-            return "Запись о книге c id " + bookId + " успешно удалена";
+            return ErrorMessage.BOOK_DELETED;
         } catch (Exception e){
-            throw new RuntimeException("Ошибка при удалении статуса книги с id: " + bookId + e.getMessage());
+            throw new RuntimeException(ErrorMessage.DELETE_BOOK_ERROR + bookId + e.getMessage());
         }
     }
 }

@@ -1,20 +1,19 @@
-package com.example.booktrackerservice.model;
+package com.example.booktrackerservice.Model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "BookStatus")
 public class BookStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
-    private String bookStatus;
+    @Enumerated(EnumType.STRING)
+    private BookStatusEnum bookStatus;
     private LocalDateTime checkOutTime;
     private LocalDateTime returnTime;
 }

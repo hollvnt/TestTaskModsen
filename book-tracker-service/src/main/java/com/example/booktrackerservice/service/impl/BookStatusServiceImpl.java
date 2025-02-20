@@ -1,11 +1,12 @@
-package com.example.booktrackerservice.service.impl;
+package com.example.booktrackerservice.Service.Impl;
 
-import com.example.booktrackerservice.config.MapperConfig;
-import com.example.booktrackerservice.dto.BookStatusDTO;
-import com.example.booktrackerservice.model.BookStatus;
-import com.example.booktrackerservice.repository.BookStatusRepository;
-import com.example.booktrackerservice.service.BookStatusService;
-import lombok.AllArgsConstructor;
+import com.example.booktrackerservice.Constants.ErrorMessage;
+import com.example.booktrackerservice.DTO.BookStatusDTO;
+import com.example.booktrackerservice.Model.BookStatus;
+import com.example.booktrackerservice.Model.BookStatusEnum;
+import com.example.booktrackerservice.Repository.BookStatusRepository;
+import com.example.booktrackerservice.Service.BookStatusService;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,14 @@ public class BookStatusServiceImpl implements BookStatusService {
     @Override
     public BookStatusDTO addBookStatus(BookStatusDTO bookStatusDTO) {
         BookStatus bookStatus = modelMapper.map(bookStatusDTO, BookStatus.class);
-        bookStatus.setBookStatus("available");
+        bookStatus.setBookStatus(BookStatusEnum.AVAILABLE);
         bookStatusRepository.save(bookStatus);
         return modelMapper.map(bookStatus, BookStatusDTO.class);
     }
 
     @Override
     public List<BookStatusDTO> getAvailableBook() {
-        return bookStatusRepository.findByBookStatus("available")
+        return bookStatusRepository.findByBookStatus(BookStatusEnum.AVAILABLE)
                 .stream()
                 .map(bookStatus -> modelMapper.map(bookStatus, BookStatusDTO.class))
                 .collect(Collectors.toList());
@@ -40,8 +41,8 @@ public class BookStatusServiceImpl implements BookStatusService {
         BookStatus bookStatus = bookStatusRepository.findByBookId(bookId)
                 .orElseThrow(() -> new RuntimeException("Книга с id " + bookId + " не найдена"));
 
-        bookStatus.setBookStatus(newStatus);
-        if("taken".equals(newStatus)){
+        bookStatus.setBookStatus(BookStatusEnum.valueOf(newStatus.toUpperCase()));
+        if(BookStatusEnum.TAKEN.equals(bookStatus.getBookStatus())){
             bookStatus.setCheckOutTime(LocalDateTime.now());
             bookStatus.setReturnTime(LocalDateTime.now().plusWeeks(2));
         } else {
@@ -56,7 +57,7 @@ public class BookStatusServiceImpl implements BookStatusService {
     @Override
     public void deleteBookStatus(Long bookId) {
         if(!bookStatusRepository.existsById(bookId)){
-            throw new RuntimeException("Книга с id " + bookId + " не найдена");
+            throw new RuntimeException(String.format(ErrorMessage.BOOK_NOT_FOUND));
         }
         bookStatusRepository.deleteById(bookId);
     }

@@ -1,14 +1,15 @@
-package com.example.booktrackerservice.Config;
+package com.example.bookstorageservice.Config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.*;
 
-@Component
+
+@Configuration
 public class MapperConfig {
+
     @Bean
-    public ModelMapper getMapper (){
+    public ModelMapper getMapper(){
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         return modelMapper;

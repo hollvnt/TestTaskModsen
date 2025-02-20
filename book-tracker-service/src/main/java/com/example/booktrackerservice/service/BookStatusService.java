@@ -1,6 +1,6 @@
-package com.example.booktrackerservice.service;
+package com.example.booktrackerservice.Service;
 
-import com.example.booktrackerservice.dto.BookStatusDTO;
+import com.example.booktrackerservice.DTO.BookStatusDTO;
 
 import java.util.List;
 

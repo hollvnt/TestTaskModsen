@@ -1,4 +1,4 @@
-package com.example.booktrackerservice.dto;
+package com.example.booktrackerservice.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
